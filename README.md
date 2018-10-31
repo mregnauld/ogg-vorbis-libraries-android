@@ -27,5 +27,8 @@ To implement the libraries and the headers in an Android project, here is how yo
 2. In your *cpp* folder, create a new package *vorbis*
 3. From this project, copy the *lib* directory and paste it in the *vorbis* directory in your project
 4. In each subdirectory (*arm64-v8a*, *armeabi-v7a*, *x86* and *x86_64*), create an *include* directory and, from this project, copy the *ogg* and *vorbis* that are in the *inc* directory, and paste them in the *include* directory you just created
-5. In your *app/build.gradle* file, add the following in the android / defaultConfig / externalNativeBuild / cmake bloc:
-    `abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'`
+5. In your *app/build.gradle* file, add the following in the *android > defaultConfig > externalNativeBuild > cmake* bloc:
+```
+abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+```
+
