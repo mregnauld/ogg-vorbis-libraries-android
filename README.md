@@ -28,7 +28,26 @@ To implement the libraries and the headers in an Android project, here is how yo
 3. From this project, copy the *lib* directory and paste it in the *vorbis* directory in your project
 4. In each subdirectory (*arm64-v8a*, *armeabi-v7a*, *x86* and *x86_64*), create an *include* directory and, from this project, copy the *ogg* and *vorbis* that are in the *inc* directory, and paste them in the *include* directory you just created
 5. In your *app/build.gradle* file, add the following in the *android > defaultConfig > externalNativeBuild > cmake* bloc:
-```
-abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-```
+   ```
+   abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+   ```
+6. In your *CMakeLists.txt* file, add the following:
+   ```
+   set(vorbis_DIR ${CMAKE_SOURCE_DIR}/src/main/cpp/vorbis)
+   add_library(ogg STATIC IMPORTED)
+   set_target_properties(ogg PROPERTIES IMPORTED_LOCATION
+           ${vorbis_DIR}/lib/${ANDROID_ABI}/libogg.a)
+   
+   add_library(vorbis STATIC IMPORTED)
+   set_target_properties(vorbis PROPERTIES IMPORTED_LOCATION
+           ${vorbis_DIR}/lib/${ANDROID_ABI}/libvorbis.a)
+   
+   include_directories(${vorbis_DIR}/lib/${ANDROID_ABI}/include)
+   ```
+   and in the *target_link_libraries* bloc, add these two lines:
+   ```
+   ${vorbis_DIR}/lib/${ANDROID_ABI}/libogg.a
+   ${vorbis_DIR}/lib/${ANDROID_ABI}/libvorbis.a
+   ```
 
+At this point, it should compile and run.
